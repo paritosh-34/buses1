@@ -98,4 +98,5 @@ function validateConductor(cond) {
   return Joi.validate(cond, schema);
 }
 
-module.exports = router;
+module.exports.router = router;
+module.exports.Conductor = Conductor;

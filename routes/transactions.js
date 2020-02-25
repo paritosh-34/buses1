@@ -173,4 +173,5 @@ function validateTransaction(transaction) {
   return Joi.validate(transaction, schema);
 }
 
-module.exports = router;
+module.exports.router = router;
+module.exports.Transaction = Transaction;

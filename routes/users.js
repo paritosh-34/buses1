@@ -122,4 +122,5 @@ function validateUser(user) {
   return Joi.validate(user, schema);
 }
 
-module.exports = router;
+module.exports.router = router;
+module.exports.User = User;

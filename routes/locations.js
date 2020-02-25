@@ -31,4 +31,5 @@ router.post("/", async (req, res) => {
   res.send(result);
 });
 
-module.exports = router;
+module.exports.router = router;
+module.exports.Location = Location;

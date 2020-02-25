@@ -129,4 +129,5 @@ function validateBus(bus) {
   return Joi.validate(bus, schema);
 }
 
-module.exports = router;
+module.exports.router = router;
+module.exports.Bus = Bus;
