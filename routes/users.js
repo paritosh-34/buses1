@@ -96,11 +96,16 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  const result = await User.findByIdAndRemove(req.params.id, {
-    useFindAndModify: false
-  });
-  if (!result) return res.status(400).send("Invalid Id");
-  res.send(result);
+  try {
+    const result = await User.findByIdAndRemove(req.params.id, {
+      useFindAndModify: false
+    });
+    if (!result) return res.status(400).send("Invalid Id");
+    res.send(result);
+  } catch (err) {
+    console.log("Error: ", err);
+    res.send(err);
+  }
 });
 
 function validateUser(user) {
