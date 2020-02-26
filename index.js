@@ -12,12 +12,12 @@ mongoose
   .then(() => console.log("Connected to MongoDB..."))
   .catch(err => console.log("Error:", err));
 
-const users = require("./routes/users").router;
-const conductors = require("./routes/conductors").router;
-const buses = require("./routes/buses").router;
-const transactions = require("./routes/transactions").router;
-const locations = require("./routes/locations").router;
-const home = require("./routes/home").router;
+const users = require("./routes/users");
+const conductors = require("./routes/conductors");
+const buses = require("./routes/buses");
+const transactions = require("./routes/transactions");
+const locations = require("./routes/locations");
+const home = require("./routes/home");
 const app = express();
 
 nunjucks.configure("views", {
@@ -27,6 +27,7 @@ nunjucks.configure("views", {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.text());
 app.use(express.static("static"));
 app.use(helmet());
 app.use(morgan("tiny"));

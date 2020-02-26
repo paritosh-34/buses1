@@ -1,14 +1,8 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const { Location, validate } = require("../models/locations");
 
 const router = express.Router();
 
-const locationSchema = mongoose.Schema({
-  lat: Number,
-  lon: Number
-});
-
-const Location = mongoose.model("locations", locationSchema);
 
 router.get("/", async (req, res) => {
   const result = await Location.find();
@@ -21,14 +15,29 @@ let ll = new Location({
 });
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
-  let location = new Location({
-    lat: req.body.lat,
-    lon: req.body.lon
-  });
+  console.log("ok body: ", req.body);
+  try {
+    const { error } = validate(req.body);
+    if (error) {
+      console.log(typeof(req.body));
+      console.log(JSON.parse(req.body));
+      return res.send(req.body);
+    }
+    let location = new Location({
+      lat: req.body.lat,
+      lon: req.body.lon
+    });
 
-  const result = await location.save();
-  res.send(result);
+    const result = await location.save();
+    res.send(result);
+  }
+  catch (err) {
+    console.log("body: ", req.body);
+    console.log("toJson: ", JSON.parse(req.body));
+    console.log(err);
+    console.log("body: ", req.body);
+    console.log("toJson: ", JSON.parse(req.body));
+  }
 });
 
 router.delete("/:id", async (req, res) => {
@@ -44,5 +53,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports.router = router;
-module.exports.Location = Location;
+module.exports = router;

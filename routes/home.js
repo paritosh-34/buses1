@@ -1,9 +1,9 @@
 const express = require("express");
-const Location = require("../routes/locations").Location;
-const User = require("../routes/users").User;
-const Conductor = require("../routes/conductors").Conductor;
-const Bus = require("../routes/buses").Bus;
-const Transaction = require("../routes/transactions").Transaction;
+const { Location } = require("../models/locations");
+const { User } = require("../models/users");
+const { Conductor } = require("../models/conductors");
+const { Bus } = require("../models/buses");
+const { Transaction } = require("../models/transactions");
 
 const router = express.Router();
 
@@ -13,7 +13,13 @@ router.get("/", async (req, res) => {
   const conductors = await Conductor.find();
   const buses = await Bus.find();
   const transactions = await Transaction.find();
-  res.render("table.html", { locations: locations, users: users, conductors: conductors, buses: buses, transactions: transactions });
+  res.render("table.html", {
+    locations: locations,
+    users: users,
+    conductors: conductors,
+    buses: buses,
+    transactions: transactions
+  });
 });
 
-module.exports.router = router;
+module.exports = router;

@@ -1,49 +1,7 @@
 const express = require("express");
-const Joi = require("joi");
-const mongoose = require("mongoose");
+const { User, validate } = require("../models/users");
 
 const router = express.Router();
-
-const userSchema = mongoose.Schema({
-  name: {
-    type: String,
-    requred: true,
-    minlength: 5,
-    maxlength: 255
-  },
-  mobile: {
-    type: Number,
-    require: true
-  },
-  DOB: {
-    type: Date,
-    required: true
-  },
-  gender: {
-    type: String,
-    enum: ["male", "female", "others"]
-  },
-  city: {
-    type: String,
-    required: true
-  }
-});
-
-const User = mongoose.model("users", userSchema);
-
-const user = new User({
-  name: "paritosh",
-  mobile: 8146990621,
-  DOB: new Date(2000, 3, 20),
-  gender: "male",
-  city: "Chandigarh"
-});
-
-async function createUser() {
-  const result = await user.save();
-  console.log(result);
-}
-// createUser();
 
 router.get("/", async (req, res) => {
   const result = await User.find();
@@ -51,7 +9,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { error } = validateUser(req.body);
+  const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let user = new User({
@@ -67,7 +25,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { error } = validateUser(req.body);
+  const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   try {
@@ -108,24 +66,4 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-function validateUser(user) {
-  const schema = {
-    name: Joi.string()
-      .min(3)
-      .required(),
-    mobile: Joi.number().required(),
-    DOB: {
-      year: Joi.number().required(),
-      month: Joi.number().required(),
-      day: Joi.number().required()
-    },
-    gender: Joi.string()
-      .valid("male", "female", "others")
-      .required(),
-    city: Joi.string().required()
-  };
-  return Joi.validate(user, schema);
-}
-
-module.exports.router = router;
-module.exports.User = User;
+module.exports = router;

@@ -1,55 +1,7 @@
 const express = require("express");
-const Joi = require("joi");
-const mongoose = require("mongoose");
+const { Bus, validate } = require("../models/buses");
 
 const router = express.Router();
-
-const busSchema = mongoose.Schema({
-  busNumber: {
-    type: String,
-    required: true
-  },
-  from: {
-    type: String,
-    required: true
-  },
-  to: {
-    type: String,
-    required: true
-  },
-  stops: {
-    type: [String]
-  },
-  conductor: {
-    name: {
-      type: String,
-      required: true
-    },
-    mobile: {
-      type: Number,
-      required: true
-    }
-  }
-});
-
-const Bus = mongoose.model("buses", busSchema);
-
-const bus = new Bus({
-  busNumber: "MH 14 GU 7694",
-  from: "Chandigarh",
-  to: "Patiala",
-  stops: ["Zirakpur", "Banur", "Rajpura"],
-  conductor: {
-    name: "Rampal",
-    mobile: 8246235689
-  }
-});
-
-async function createBus() {
-  const result = await bus.save();
-  console.log(result);
-}
-// createBus();
 
 router.get("/", async (req, res) => {
   const result = await Bus.find();
@@ -57,7 +9,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { error } = validateBus(req.body);
+  const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let bus = new Bus({
@@ -76,7 +28,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { error } = validateBus(req.body);
+  const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   try {
@@ -115,19 +67,4 @@ router.delete("/:id", async (req, res) => {
   res.send(result);
 });
 
-function validateBus(bus) {
-  const schema = {
-    busNumber: Joi.string().required(),
-    from: Joi.string().required(),
-    to: Joi.string().required(),
-    stops: Joi.array(),
-    conductor: {
-      name: Joi.string(),
-      mobile: Joi.number()
-    }
-  };
-  return Joi.validate(bus, schema);
-}
-
-module.exports.router = router;
-module.exports.Bus = Bus;
+module.exports = router;
