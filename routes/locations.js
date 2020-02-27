@@ -19,13 +19,24 @@ router.post("/", async (req, res) => {
       console.log(JSON.parse(req.body));
       return res.send(req.body);
     }
-    let location = new Location({
-      lat: req.body.lat,
-      lon: req.body.lon
-    });
-    
-    const result = await location.save();
-    res.send(result);
+    console.log(req.body.name);
+    if (req.body.name) {
+      let location = new Location({
+        name: req.body.name,
+        lat: req.body.lat,
+        lon: req.body.lon
+      });
+      const result = await location.save();
+      res.send(result);
+    }
+    else {
+      let location = new Location({
+        lat: req.body.lat,
+        lon: req.body.lon
+      });
+      const result = await location.save();
+      res.send(result);
+    }
   }
   catch (err) {
     console.log(err);

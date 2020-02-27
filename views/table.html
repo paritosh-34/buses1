@@ -74,6 +74,7 @@
             <th colspan="2"><center><h5>Locations</h5></center></th>
           </tr>
           <tr>
+            <th>Name</th>
             <th>Lat</th>
             <th>Lon</th>
           </tr>
@@ -81,6 +82,7 @@
         <tbody>
           {% for item in locations %}
           <tr>
+            <td>{{ item.name }}</td>
             <td>{{ item.lat }}</td>
             <td>{{ item.lon }}</td>
           </tr>
