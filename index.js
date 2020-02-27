@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 app.use(express.static("static"));
 app.use(helmet());
-app.use(morgan("tiny"));
+app.use(morgan("combined"));
 
 app.use("/api/users", users);
 app.use("/api/conductors", conductors);
