@@ -1,2 +1,4 @@
 {"message":"127.0.0.1 - - [27/Feb/2020:12:57:37 +0000] \"GET /api/transactions HTTP/1.1\" 304 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36\"\n","level":"info"}
 {"message":"127.0.0.1 - - [27/Feb/2020:12:58:24 +0000] \"GET /api/users HTTP/1.1\" 304 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36\"\n","level":"info"}
+{"message":"127.0.0.1 - - [27/Feb/2020:12:59:49 +0000] \"GET /api/users HTTP/1.1\" 304 - \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36\"\n","level":"info"}
+{"message":"127.0.0.1 - - [27/Feb/2020:12:59:55 +0000] \"GET /log HTTP/1.1\" 404 142 \"-\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36\"\n","level":"info"}

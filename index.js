@@ -58,6 +58,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 app.use(express.static("static"));
+app.use(express.static("logs"));
 app.use(helmet());
 app.use(require("morgan")("combined", { "stream": logger.stream }));
 
