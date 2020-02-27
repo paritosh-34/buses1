@@ -9,11 +9,6 @@ router.get("/", async (req, res) => {
   res.send(result);
 });
 
-let ll = new Location({
-  lat: 30.5154156,
-  lon: 76.6555297
-});
-
 router.post("/", async (req, res) => {
   console.log("ok body: ", req.body);
   console.log("type: ", typeof(req.body));
@@ -28,16 +23,12 @@ router.post("/", async (req, res) => {
       lat: req.body.lat,
       lon: req.body.lon
     });
-
+    
     const result = await location.save();
     res.send(result);
   }
   catch (err) {
-    console.log("body: ", req.body);
-    console.log("toJson: ", JSON.parse(req.body));
     console.log(err);
-    console.log("body: ", req.body);
-    console.log("toJson: ", JSON.parse(req.body));
   }
 });
 
