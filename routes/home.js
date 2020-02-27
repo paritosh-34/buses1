@@ -8,11 +8,12 @@ const { Transaction } = require("../models/transactions");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const locations = await Location.find();
+  let locations = await Location.find();
   const users = await User.find();
   const conductors = await Conductor.find();
   const buses = await Bus.find();
   const transactions = await Transaction.find();
+  locations = locations.reverse();
   res.render("table.html", {
     locations: locations,
     users: users,
