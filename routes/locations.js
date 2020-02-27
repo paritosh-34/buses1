@@ -16,6 +16,7 @@ let ll = new Location({
 
 router.post("/", async (req, res) => {
   console.log("ok body: ", req.body);
+  console.log("type: ", typeof(req.body));
   try {
     const { error } = validate(req.body);
     if (error) {

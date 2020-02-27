@@ -22,4 +22,8 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.get("/map", (req, res) => {
+  res.render("maps.html")
+})
+
 module.exports = router;
