@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const locationSchema = mongoose.Schema({
   name: String,
   lat: Number,
-  lon: Number
+  lon: Number,
+  time: Date
 });
 
 const Location = mongoose.model("locations", locationSchema);
@@ -19,6 +20,7 @@ function validateLocation(location) {
     name: Joi.string(),
     lat: Joi.number(),
     lon: Joi.number(),
+    time: Joi.date()
   };
   return Joi.validate(location, schema);
 }

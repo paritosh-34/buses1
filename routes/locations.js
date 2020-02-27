@@ -24,7 +24,8 @@ router.post("/", async (req, res) => {
       let location = new Location({
         name: req.body.name,
         lat: req.body.lat,
-        lon: req.body.lon
+        lon: req.body.lon,
+        time: req.body.time
       });
       const result = await location.save();
       res.send(result);
