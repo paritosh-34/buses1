@@ -10,16 +10,36 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <script>
-      $(document).ready(function(){
-        var locs = {{ locations }};
-        console.log(locs);
-      });
-    </script>
   </head>
 
   <body>
     <div class="container">
+      <nav class="navbar navbar-expand-sm bg-light justify-content-center">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/all-logs.log">Logs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/api/locations">Location API</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/api/transactions">Transactions API</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/api/buses">Bus API</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/api/users">User API</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/api/conductors">Conductor API</a>
+          </li>
+        </ul>
+      </nav>
+      <br />
       <h2>API's</h2>
       <div class="btn-group btn-block" role="group">
         <div class="btn-group">
@@ -73,11 +93,13 @@
           </button>
         </div>
       </div>
-      <br>
-      <table id="locations" class="table table-striped">
+      <br />
+      <table id="locations" class="collapse table table-striped">
         <thead>
           <tr class="table-info">
-            <th colspan="2"><center><h5>Locations</h5></center></th>
+            <th colspan="2">
+              <center><h5>Locations</h5></center>
+            </th>
           </tr>
           <tr>
             <th>Name</th>
@@ -97,11 +119,13 @@
           {% endfor %}
         </tbody>
       </table>
-      <br>
+      <br />
       <table id="users" class="collapse table table-striped">
         <thead>
           <tr class="table-info">
-            <th colspan="5"><center><h5>Users</h5></center></th>
+            <th colspan="5">
+              <center><h5>Users</h5></center>
+            </th>
           </tr>
           <tr>
             <th>Name</th>
@@ -123,11 +147,13 @@
           {% endfor %}
         </tbody>
       </table>
-      <br>
+      <br />
       <table id="conductors" class="collapse table table-striped">
         <thead>
           <tr class="table-info">
-            <th colspan="3"><center><h5>Conductors</h5></center></th>
+            <th colspan="3">
+              <center><h5>Conductors</h5></center>
+            </th>
           </tr>
           <tr>
             <th>Name</th>
@@ -145,11 +171,13 @@
           {% endfor %}
         </tbody>
       </table>
-      <br>
+      <br />
       <table id="buses" class="collapse table table-striped">
         <thead>
           <tr class="table-info">
-            <th colspan="6"><center><h5>Buses</h5></center></th>
+            <th colspan="6">
+              <center><h5>Buses</h5></center>
+            </th>
           </tr>
           <tr>
             <th>Conductor name</th>
@@ -173,11 +201,13 @@
           {% endfor %}
         </tbody>
       </table>
-      <br>
+      <br />
       <table id="transactions" class="collapse table table-striped">
         <thead>
           <tr class="table-info">
-            <th colspan="10"><center><h5>Transactions</h5></center></th>
+            <th colspan="10">
+              <center><h5>Transactions</h5></center>
+            </th>
           </tr>
           <tr>
             <th>User name</th>
@@ -209,7 +239,7 @@
           {% endfor %}
         </tbody>
       </table>
-      <br>
+      <br />
     </div>
     <!-- <script src="jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script> -->
