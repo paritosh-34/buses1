@@ -27,4 +27,8 @@ router.get("/map", (req, res) => {
   res.render("maps.html")
 })
 
+router.get("/map2", (req, res) => {
+  res.render("maps2.html")
+})
+
 module.exports = router;

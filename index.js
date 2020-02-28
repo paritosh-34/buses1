@@ -60,7 +60,7 @@ app.use(express.text());
 app.use(express.static("static"));
 app.use(express.static("logs"));
 app.use(helmet());
-app.use(require("morgan")("combined", { "stream": logger.stream }));
+app.use(require("morgan")("tiny", { "stream": logger.stream }));
 
 app.use("/api/users", users);
 app.use("/api/conductors", conductors);
