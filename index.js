@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
-const morgan = require("morgan");
 const nunjucks = require("nunjucks");
 const winston = require("winston");
 // const logger = require("./middleware/logger");
