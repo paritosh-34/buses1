@@ -25,6 +25,9 @@
           <li class="nav-item">
             <a class="nav-link" href="/all-logs.log">Logs</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/locations">All locations</a>
+          </li>
         </ul>
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -45,7 +48,7 @@
         </ul>
       </nav>
       <br />
-      <h2>API's</h2>
+      <h2>Tables :-</h2>
       <div class="btn-group btn-block" role="group">
         <div class="btn-group">
           <button
@@ -54,8 +57,18 @@
             data-toggle="collapse"
             data-target="#locations"
           >
-            Locations
+            Last 20 locations
           </button>
+        </div>
+        <div class="btn-group">
+          <form action="/locations" method="GET">
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+            >
+              All locations
+            </button>
+          </form>
         </div>
         <div class="btn-group">
           <button

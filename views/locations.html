@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="nunjucks.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <center><h3>Locations (descending)</h3></center>
+      <table class="table table-striped">
+        <thead>
+          <tr class="table-info">
+            <th colspan="4">
+              <center><h5>Locations</h5></center>
+            </th>
+          </tr>
+          <tr>
+            <th>Name</th>
+            <th>Lat</th>
+            <th>Lon</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in locations %}
+          <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.lat }}</td>
+            <td>{{ item.lon }}</td>
+            <td>{{ item.time }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

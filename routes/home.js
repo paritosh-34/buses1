@@ -8,7 +8,9 @@ const { Transaction } = require("../models/transactions");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const locations = await Location.find().sort('-time').limit(20);
+  const locations = await Location.find()
+    .sort("-time")
+    .limit(20);
   const users = await User.find();
   const conductors = await Conductor.find();
   const buses = await Bus.find();
@@ -22,12 +24,17 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.get("/locations", async (req, res) => {
+  const locations = await Location.find().sort("-time");
+  res.render("locations.html", { locations: locations });
+});
+
 router.get("/map", (req, res) => {
-  res.render("maps.html")
-})
+  res.render("maps.html");
+});
 
 router.get("/map2", (req, res) => {
-  res.render("maps2.html")
-})
+  res.render("maps2.html");
+});
 
 module.exports = router;
