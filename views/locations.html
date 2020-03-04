@@ -30,7 +30,7 @@
             <th>Date</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="tbody">
           {% for item in locations %}
           <tr>
             <td>{{ item.name }}</td>
@@ -42,5 +42,24 @@
         </tbody>
       </table>
     </div>
+
+    <script src="socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function() {
+        var socket = io();
+        socket.on("post request", function(msg) {
+          console.log(msg);
+          $("#messages").append($("<li>").text(msg));
+          const name = "<td>" + msg.name + "</td>";
+          const lat = "<td>" + msg.lat + "</td>";
+          const lon = "<td>" + msg.lon + "</td>";
+          const time = "<td>" + Date((Date.parse(msg.time))) + "</td>";
+          const text = "<tr>" + name + lat + lon + time + "</tr>";
+          console.log(text);
+          $("#tbody").prepend(text);
+        });
+      });
+    </script>
   </body>
 </html>
