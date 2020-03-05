@@ -102,7 +102,6 @@ app.post("/api/locations", async (req, res) => {
         name: req.body.name,
         lat: req.body.lat,
         lon: req.body.lon,
-        time: req.body.time
       });
       const result = await location.save();
       res.send(result);

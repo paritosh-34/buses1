@@ -5,7 +5,10 @@ const locationSchema = mongoose.Schema({
   name: String,
   lat: Number,
   lon: Number,
-  time: Date
+  time: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 const Location = mongoose.model("locations", locationSchema);
