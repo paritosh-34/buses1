@@ -1,12 +1,19 @@
 let map;
 let locs;
+$(document).ready(function() {
+  $("#myModal").modal("show");
+  $("#butt").click(async function() {
+    const name = $("#slct option:selected").text();
+    console.log(name);
+    await $.get("/testL/"+name, function(data, textStatus, jqXHR) {
+      console.log("status: " + textStatus + ", data: " + data[0]);
+      locs = data;
+    });
+    start();
+  });
+});
 async function start() {
   var socket = io();
-
-  await $.get("/testL", function(data, textStatus, jqXHR) {
-    console.log("status: " + textStatus + ", data: " + data[0]);
-    locs = data;
-  });
 
   for (let i = 0; i < locs.length; i++) {
     locs[i].lng = locs[i].lon;
@@ -34,4 +41,3 @@ async function start() {
     }, i * 2000);
   }
 }
-start();

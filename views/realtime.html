@@ -17,41 +17,59 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyBqqW5pq28Qera8ScOykfyKpiIP5Cc0XAM"></script>
     <script>
       var map;
-      var marker;
+      var marker = [];
       function initialize() {
         var mapOptions = {
-          zoom: 17,
-          center: new google.maps.LatLng(-34.397, 150.644),
+          zoom: 11,
+          center: new google.maps.LatLng(30.5157861, 76.6606175),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(
           document.getElementById("map-canvas"),
           mapOptions
         );
-        marker = new google.maps.Marker({position: {lat: 30.5166463, lng: 76.6605829}, label: "paritosh", map: map})
+        // const defau = new google.maps.Marker({
+        //   position: { lat: 30.5166463, lng: 76.6605829 },
+        //   label: "default",
+        //   map: map
+        // });
+        // marker.push(defau)
       }
 
       google.maps.event.addDomListener(window, "load", initialize);
 
-      function pan(lat, lng) {
-        var panPoint = new google.maps.LatLng(
-          lat,
-          lng
-        );
-        map.panTo(panPoint);
-        marker.setPosition(panPoint);
+      function pan(lat, lng, name) {
+        var panPoint = new google.maps.LatLng(lat, lng);
+        // map.panTo(panPoint);
+        var flag = true;
+        console.log(marker.length);
+        for (let i = 0; i < marker.length; i++) {
+          if (name === marker[i].getLabel()) {
+            flag = false;
+            marker[i].setPosition(panPoint);
+          }
+        }
+        if (flag) {
+          const temp = new google.maps.Marker({
+            position: { lat: lat, lng: lng },
+            label: name,
+            map: map
+          });
+          marker.push(temp);
+
+        }
       }
-      
+
       var socket = io();
       socket.on("test_socket", function(msg) {
         console.log(msg);
-        pan(msg.lat, msg.lng)
+        pan(msg.lat, msg.lng, msg.name);
       });
     </script>
   </head>
   <body>
     <a href="/test" target="_blank">Start Lat Lon Simulation</a>
-    Or send lat long via this form<br>
+    Or send lat long via this form<br />
     <label>lat</label><input type="text" id="lat" />
     <label>lng</label><input type="text" id="lng" />
     <input type="button" value="updateCenter" onclick="pan()" />

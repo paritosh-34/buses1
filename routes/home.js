@@ -33,8 +33,18 @@ router.get("/map", (req, res) => {
   res.render("maps.html");
 });
 
-router.get("/testL", async (req, res) => {
+router.get("/testL/Paritosh", async (req, res) => {
   const result = await Location.find({ name: "Paritosh" }).sort("-time");
+  res.send(result);
+});
+
+router.get("/testL/Akash", async (req, res) => {
+  const result = await Location.find({ name: "Akash" }).sort("-time");
+  res.send(result);
+});
+
+router.get("/testL/Nakul", async (req, res) => {
+  const result = await Location.find({ name: "Nakul" }).sort("-time");
   res.send(result);
 });
 
