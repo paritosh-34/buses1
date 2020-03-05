@@ -26,7 +26,10 @@
             <a class="nav-link" href="/all-logs.log">Logs</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/locations">All locations</a>
+            <a class="nav-link" href="/locations">All locations(live)</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/realtime">Realtime Location</a>
           </li>
         </ul>
         <ul class="navbar-nav">
@@ -66,7 +69,17 @@
               type="submit"
               class="btn btn-primary btn-block"
             >
-              All locations
+              All locations(live)
+            </button>
+          </form>
+        </div>
+        <div class="btn-group">
+          <form action="/realtime" method="GET">
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+            >
+              Realtime Location
             </button>
           </form>
         </div>
