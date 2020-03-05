@@ -18,7 +18,15 @@
         padding: 0;
       }
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+      async
+    ></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqqW5pq28Qera8ScOykfyKpiIP5Cc0XAM&callback=init&callback=initMap"
+      defer
+    ></script>
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"></script>
   </head>
   <body>
     <div id="map"></div>
@@ -27,13 +35,18 @@
       var locs;
       async function initMap() {
         await $.get("/api/locations", function(data, textStatus, jqXHR) {
-          console.log("status: " + status + ", data: " + data[0]);
+          console.log("status: " + textStatus + ", data: " + data[0]);
           locs = data;
         });
-        map = new google.maps.Map(document.getElementById("map"), {
-          center: { lat: 30.745360, lng: 76.639875 },
-          zoom: 10
-        });
+        let mapOptions = {
+          zoom: 10,
+          center: new google.maps.LatLng(30.74536, 76.639875),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(
+          document.getElementById("map"),
+          mapOptions
+        );
 
         var labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -57,11 +70,5 @@
         });
       }
     </script>
-    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"></script>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqqW5pq28Qera8ScOykfyKpiIP5Cc0XAM&callback=init&callback=initMap"
-      async
-      defer
-    ></script>
   </body>
 </html>

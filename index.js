@@ -5,6 +5,7 @@ const nunjucks = require("nunjucks");
 const winston = require("winston");
 
 const { Location, validate } = require("./models/locations");
+const TestSocket = require("./models/test_sockets");
 const app = express();
 
 const server = require("http").Server(app);
@@ -68,9 +69,15 @@ app.use(require("morgan")("tiny", { stream: logger.stream }));
 
 io.on("connection", function(socket) {
   console.log("a user connected");
+
   socket.on("post request", function(msg) {
     console.log("chat message", msg);
   });
+
+  socket.on("test_socket", function(msg) {
+    io.emit("test_socket", msg);
+  });
+
   socket.on("disconnect", function() {
     console.log("user disconnected");
   });

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+    <style>
+      html,
+      body,
+      #map-canvas {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+    </style>
+    <script src="socket.io.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyBqqW5pq28Qera8ScOykfyKpiIP5Cc0XAM"></script>
+    <script>
+      var map;
+      var marker;
+      function initialize() {
+        var mapOptions = {
+          zoom: 17,
+          center: new google.maps.LatLng(-34.397, 150.644),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(
+          document.getElementById("map-canvas"),
+          mapOptions
+        );
+        marker = new google.maps.Marker({position: {lat: 30.5166463, lng: 76.6605829}, label: "paritosh", map: map})
+      }
+
+      google.maps.event.addDomListener(window, "load", initialize);
+
+      function pan(lat, lng) {
+        var panPoint = new google.maps.LatLng(
+          lat,
+          lng
+        );
+        map.panTo(panPoint);
+        marker.setPosition(panPoint);
+      }
+      
+      var socket = io();
+      socket.on("test_socket", function(msg) {
+        console.log(msg);
+        pan(msg.lat, msg.lng)
+      });
+    </script>
+  </head>
+  <body>
+    <label>lat</label><input type="text" id="lat" />
+    <br />
+    <label>lng</label><input type="text" id="lng" />
+    <input type="button" value="updateCenter" onclick="pan()" />
+
+    <div id="map-canvas"></div>
+  </body>
+</html>

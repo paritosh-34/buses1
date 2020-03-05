@@ -33,6 +33,19 @@ router.get("/map", (req, res) => {
   res.render("maps.html");
 });
 
+router.get("/testL", async (req, res) => {
+  const result = await Location.find({ name: "Paritosh" }).sort("-time");
+  res.send(result);
+});
+
+router.get("/test", (req, res) => {
+  res.render("test_socket.html");
+});
+
+router.get("/realtime", (req, res) => {
+  res.render("realtime.html");
+});
+
 router.get("/map2", (req, res) => {
   res.render("maps2.html");
 });

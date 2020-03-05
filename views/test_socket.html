@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket</title>
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="test_style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqqW5pq28Qera8ScOykfyKpiIP5Cc0XAM&callback=init&callback=initMap"
+      defer
+    ></script> -->
+  </head>
+  <body>
+    <div id="maindiv">
+      <table>
+        <tr>
+          <td>
+            <h3>Lats and Lons after 1 sec Interval</h3>
+            <table id="tble" class="table">
+              <tr>
+                <th>Started By</th>
+                <th>Lat</th>
+                <th>Lng</th>
+              </tr>
+            </table>
+          </td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+    <script src="socket.io.js"></script>
+    <script src="test_main.js"></script>
+  </body>
+</html>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Live</title>
     <script src="nunjucks.min.js"></script>
     <link
       rel="stylesheet"
@@ -15,7 +15,7 @@
   </head>
   <body>
     <div class="container">
-      <center><h3>Locations (descending)</h3></center>
+      <center><h3>Live Locations (descending)</h3></center>
       <table class="table table-striped">
         <thead>
           <tr class="table-info">
@@ -50,7 +50,6 @@
         var socket = io();
         socket.on("post request", function(msg) {
           console.log(msg);
-          $("#messages").append($("<li>").text(msg));
           const name = "<td>" + msg.name + "</td>";
           const lat = "<td>" + msg.lat + "</td>";
           const lon = "<td>" + msg.lon + "</td>";
