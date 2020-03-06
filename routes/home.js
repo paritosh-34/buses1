@@ -7,7 +7,7 @@ const { Transaction } = require("../models/transactions");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/admin", async (req, res) => {
   const locations = await Location.find()
     .sort("-time")
     .limit(20);
@@ -24,8 +24,33 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.post("/", async (req, res) => {
+  const result = await User.find({
+    name: req.body.username,
+    password: req.body.password
+  });
+  if (result[0]) return res.render("wallet.html");
+});
+
+router.post("/login", async (req, res) => {
+  const result = await User.find({
+    name: req.body.username,
+    password: req.body.password
+  });
+  if (result[0]) return res.status(200).send(result);
+  else return res.status(400).send({ status: false });
+});
+
+router.post("/signup", async (req, res) => {
+  // res.send(req.body);
+});
+
+router.get("/wallet", (req, res) => {
+  res.render("wallet.html");
+});
+
 router.get("/locations", async (req, res) => {
-  const locations = await Location.find().sort("-time");
+  const result = await Location.find().sort("-time");
   res.render("locations.html", { locations: locations });
 });
 
@@ -58,6 +83,10 @@ router.get("/realtime", (req, res) => {
 
 router.get("/map2", (req, res) => {
   res.render("maps2.html");
+});
+
+router.get("/", (req, res) => {
+  res.render("home.html");
 });
 
 module.exports = router;

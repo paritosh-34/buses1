@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const nunjucks = require("nunjucks");
 const winston = require("winston");
+const session = require("express-session");
 
 const { Location, validate } = require("./models/locations");
 const TestSocket = require("./models/test_sockets");
@@ -62,8 +63,10 @@ logger.stream = {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
+app.use(session({secret: "secret key dudes !!"}));
 app.use(express.static("static"));
 app.use(express.static("logs"));
+
 app.use(helmet());
 app.use(require("morgan")("tiny", { stream: logger.stream }));
 

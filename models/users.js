@@ -23,6 +23,15 @@ const userSchema = mongoose.Schema({
   city: {
     type: String,
     required: true
+  },
+  balance: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  password: {
+    type: String,
+    required: true
   }
 });
 
