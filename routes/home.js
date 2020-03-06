@@ -25,6 +25,7 @@ router.get("/admin", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log(req.body);
   const result = await User.find({
     name: req.body.username,
     password: req.body.password
