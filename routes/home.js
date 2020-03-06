@@ -35,15 +35,14 @@ router.post("/", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const result = await User.find({
-    name: req.body.username,
-    password: req.body.password
+    mobile: req.body.mobile,
   });
   if (result[0]) return res.status(200).send(result[0]);
   else return res.status(400).send({ status: false });
 });
 
 router.post("/signup", async (req, res) => {
-  // res.send(req.body);
+  res.send("testing stage");
 });
 
 router.get("/wallet", (req, res) => {
