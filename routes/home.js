@@ -38,7 +38,10 @@ router.post("/login", async (req, res) => {
     name: req.body.username,
     password: req.body.password
   });
-  if (result[0]) return res.status(200).send(result[0]);
+  if (result[0]) {
+    result.status = true;
+    return res.status(200).send(result[0]);
+  }
   else return res.status(400).send({ status: false });
 });
 
