@@ -83,9 +83,13 @@ router.get("/wallet", async (req, res) => {
   return res.redirect("/");
 });
 
-router.post("/wallet", (req, res) => {
-  // const result = await U
-  console.log("ok");
+router.post("/wallet", async (req, res) => {
+  if (req.session._id) {
+    const result = await User.findById(req.session._id);
+    result.balance = parseInt(result.balance) + parseInt(req.body.money);
+    const t = await result.save();
+    return res.redirect("/wallet");
+  }
 });
 
 router.get("/locations", async (req, res) => {
