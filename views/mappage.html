@@ -1,0 +1,104 @@
+{% extends 'format.html' %} {% block title %} Choose Bus {% endblock %} {% block
+button %}<a href="home"><button class="btn btn-success">Logout</button></a>{%
+endblock %} {% block style %} /* Always set the map height explicitly to define
+the size of the div * element that contains the map. */ #map { height: 60%; } /*
+Optional: Makes the sample page fill the window. */ html, body { height: 100%;
+margin: 0; padding: 0; {% endblock %} {% block body %}
+<a href="wallet">Pay Now</a>
+<div class="container mt-4 bg-danger">
+  <input id="from" type="textbox" placeholder="from" />
+  <input id="to" type="textbox" placeholder="to" />
+  <input id="submit" type="button" value="Search Buses" />
+</div>
+<div class="container mt-2" id="map"></div>
+<script>
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 10,
+      center: {
+        lat: -34.397,
+        lng: 150.644
+      }
+    });
+    var geocoder = new google.maps.Geocoder();
+
+    document.getElementById("submit").addEventListener("click", function() {
+      geocodeAddress(geocoder, map);
+    });
+  }
+
+  function geocodeAddress(geocoder, resultsMap) {
+    var address1 = document.getElementById("from").value;
+    var address2 = document.getElementById("to").value;
+    var from;
+    var to;
+    geocoder.geocode(
+      {
+        address: address1
+      },
+      function(results, status) {
+        if (status === "OK") {
+          from = results[0].geometry.location;
+          console.log(results[0].geometry.location);
+          resultsMap.setCenter(results[0].geometry.location);
+          var marker1 = new google.maps.Marker({
+            map: resultsMap,
+            position: results[0].geometry.location
+          });
+        } else {
+          alert(
+            "Geocode was not successful for the following reason: " + status
+          );
+        }
+      }
+    );
+    geocoder.geocode(
+      {
+        address: address2
+      },
+      function(results, status) {
+        if (status === "OK") {
+          to = results[0].geometry.location;
+          resultsMap.setCenter(results[0].geometry.location);
+          console.log(results);
+          var marker1 = new google.maps.Marker({
+            map: resultsMap,
+            position: results[0].geometry.location
+          });
+          setPolyline();
+        } else {
+          alert(
+            "Geocode was not successful for the following reason: " + status
+          );
+        }
+      }
+    );
+    function setPolyline() {
+      $.post(
+        "localhost:3000/check", // url
+        { myData: {from: from, to: to} }, // data to be submit
+        function(data, status, jqXHR) {
+          // success callback
+          console.log("status: " + status + ", data: " + data);
+        }
+      );
+      console.log("from: ", from);
+      console.log("to: ", to);
+      // var flightPath = new google.maps.Polyline({
+      //   path: [from, to],
+      //   geodesic: true,
+      //   strokeColor: "#FF0000",
+      //   strokeOpacity: 1.0,
+      //   strokeWeight: 2
+      // });
+      // flightPath.setMap(map);
+    }
+  }
+</script>
+<script
+  async
+  defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqqW5pq28Qera8ScOykfyKpiIP5Cc0XAM&callback=initMap"
+></script>
+{% endblock %}

@@ -24,19 +24,29 @@ router.get("/admin", async (req, res) => {
   });
 });
 
+router.post("/check", (req, res) => {
+  console.log(req.body);
+  return res.status(200).send("ok");
+});
+
 router.post("/", async (req, res) => {
   console.log(req.body);
   const result = await User.find({
     name: req.body.username,
     password: req.body.password
   });
-  if (result[0]) return res.render("wallet.html");
+  if (result[0]) return res.redirect("/mappage");
+  else return res.render("home.html", { i: "Invalid id/password" });
+});
+
+router.get("/mappage", async (req, res) => {
+  res.render("mappage.html");
 });
 
 router.post("/login", async (req, res) => {
   console.log(req.body);
   const result = await User.find({
-    mobile: req.body.mobile,
+    mobile: req.body.mobile
   });
   if (result[0]) return res.status(200).send(result[0]);
   else return res.status(400).send({ status: false });
@@ -52,7 +62,7 @@ router.get("/wallet", (req, res) => {
 
 router.get("/locations", async (req, res) => {
   const result = await Location.find().sort("-time");
-  res.render("locations.html", { locations: locations });
+  res.render("locations.html", { locations: result });
 });
 
 router.get("/map", (req, res) => {
