@@ -54,7 +54,7 @@ io.on("connection", function(socket) {
   });
 
   socket.on("test_socket", function(msg) {
-    io.emit("test_socket", msg);
+    io.emit("locs", msg);
   });
 
   socket.on("disconnect", function() {

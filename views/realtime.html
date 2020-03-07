@@ -61,7 +61,7 @@
       }
 
       var socket = io();
-      socket.on("test_socket", function(msg) {
+      socket.on("locs", function(msg) {
         console.log(msg);
         pan(msg.lat, msg.lng, msg.name);
       });

@@ -89,7 +89,7 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
   }
 
   var socket = io();
-  socket.on("test_socket", function(msg) {
+  socket.on("locs", function(msg) {
     console.log(msg);
     pan(msg.lat, msg.lng, msg.name);
   });
