@@ -50,9 +50,9 @@ async function createBus() {
 
 function validateBus(bus) {
   const schema = {
-    busNumber: Joi.string().required(),
-    from: Joi.string().required(),
-    to: Joi.string().required(),
+    busNumber: Joi.string(),
+    from: Joi.string(),
+    to: Joi.string(),
     stops: Joi.array(),
     conductor: {
       name: Joi.string(),

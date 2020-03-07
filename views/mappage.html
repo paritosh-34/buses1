@@ -12,8 +12,8 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
 </div>
 <div class="container mt-2" id="map"></div>
 
-<div class="container">
-  <table id="buses" class="table table-striped">
+<div class="container mt-2">
+  <table id="buses" class="table table-hover">
     <thead>
       <tr class="table-info">
         <th colspan="6">
@@ -31,7 +31,7 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
     </thead>
     <tbody>
       {% for item in buses %}
-      <tr>
+      <tr onclick="gocent('{{ item.busNumber }}')">
         <td>{{ item.from }}</td>
         <td>{{ item.to }}</td>
         <td>{{ item.stops }}</td>
@@ -54,7 +54,7 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
     map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 10,
+      zoom: 8,
       center: {
         lat: 30.5157861,
         lng: 76.6606175
@@ -114,11 +114,16 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
   }
 
   var marker = [];
+  var pt = [];
   function pan(lat, lng, name) {
+    console.log("pt: ", pt);
     var panPoint = new google.maps.LatLng(lat, lng);
-    // map.panTo(panPoint);
+    if (pt[0]) {
+      map.panTo(new google.maps.LatLng(marker[pt[1]].position.lat(), marker[pt[1]].position.lng()));
+      map.setZoom(15);
+    }
     var flag = true;
-    console.log(marker.length);
+    // console.log(marker.length);
     for (let i = 0; i < marker.length; i++) {
       if (name === marker[i].getLabel()) {
         flag = false;
@@ -131,13 +136,30 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
         label: name,
         map: map
       });
+      temp.addListener('click', function() {
+          gocent(temp.getLabel());
+        });
       marker.push(temp);
+    }
+  }
+
+  function gocent(name) {
+    for (let i=0;i<marker.length;i++) {
+      if (name === marker[i].getLabel()) {
+        if (i === pt[1]) {
+          pt[0] = false;
+          return;
+        }
+        pt[0] = true;
+        pt[1] = i;
+        return;
+      }
     }
   }
 
   var socket = io();
   socket.on("locs", function(msg) {
-    console.log(msg);
+    // console.log(msg);
     pan(msg.lat, msg.lng, msg.name);
   });
 </script>
