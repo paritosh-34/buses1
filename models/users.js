@@ -62,7 +62,8 @@ function validateUser(user) {
       .valid("male", "female", "others")
       .required(),
     city: Joi.string().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
+    balance: Joi.number()
   };
   return Joi.validate(user, schema);
 }

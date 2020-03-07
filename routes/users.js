@@ -37,7 +37,9 @@ router.put("/:id", async (req, res) => {
         mobile: req.body.mobile,
         DOB: new Date(req.body.DOB.year, req.body.DOB.month, req.body.DOB.day),
         gender: req.body.gender,
-        city: req.body.city
+        city: req.body.city,
+        password: req.body.password,
+        balance: req.body.balance
       },
       {
         new: true,
