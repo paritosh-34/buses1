@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const nunjucks = require("nunjucks");
 const winston = require("winston");
 const session = require("express-session");
+const cors = require("cors");
 
 const { Location, validate } = require("./models/locations");
 const TestSocket = require("./models/test_sockets");
@@ -60,6 +61,7 @@ logger.stream = {
   }
 };
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
