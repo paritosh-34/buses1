@@ -38,6 +38,6 @@ async function start() {
       index = index + 1;
 
       socket.emit("test_socket", locs[index]);
-    }, i * 1000);
+    }, i * 2000);
   }
 }
