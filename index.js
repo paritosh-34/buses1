@@ -73,7 +73,7 @@ app.post("/api/locations", async (req, res) => {
       return res.send(req.body);
     }
 
-    io.broadcast.emit("post request", req.body);
+    io.emit("post request", req.body);
 
     console.log(req.body.name);
     if (req.body.name) {

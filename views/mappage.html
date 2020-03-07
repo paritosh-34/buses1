@@ -91,19 +91,19 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
       },
       async function(response, status) {
         if (status === "OK") {
-          const name = "PB 14 AL 7964";
+          const name = "CH 04 AK 6495";
           for (arr in response.routes[0].overview_path) {
             let lat = response.routes[0].overview_path[arr].lat();
             let lng = response.routes[0].overview_path[arr].lng();
             console.log(name, lat, lng);
-            // await $.post(
-            //   "/api/locations", // url
-            //   { name: name, lat: lat, lon: lng }, // data to be submit
-            //   function(data, status, jqXHR) {
-            //     // success callback
-            //     console.log("status: " + status + ", data: " + data);
-            //   }
-            // );
+            await $.post(
+              "/api/locations", // url
+              { name: name, lat: lat, lon: lng }, // data to be submit
+              function(data, status, jqXHR) {
+                // success callback
+                console.log("status: " + status + ", data: " + data);
+              }
+            );
           }
           directionsRenderer.setDirections(response);
         } else {
