@@ -21,23 +21,28 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
         </th>
       </tr>
       <tr>
+        <th>BusNumber</th>
         <th>From</th>
         <th>To</th>
-        <th>Stops</th>
-        <th>BusNumber</th>
+        <!-- <th>Stops</th> -->
         <th>Conductor name</th>
-        <th>Conductor mobile</th>
+        <!-- <th>Conductor mobile</th> -->
       </tr>
     </thead>
     <tbody>
+      <!-- <a href="#" data-toggle="tooltip" title="Hooray!">Hover over me</a> -->
       {% for item in buses %}
-      <tr onclick="gocent('{{ item.busNumber }}')">
+      <tr
+        data-toggle="tooltip"
+        title="Stops:{{ item.stops }}"
+        onclick="gocent('{{ item.busNumber }}')"
+      >
+        <td>{{ item.busNumber }}</td>
         <td>{{ item.from }}</td>
         <td>{{ item.to }}</td>
-        <td>{{ item.stops }}</td>
-        <td>{{ item.busNumber }}</td>
+        <!-- <td>{{ item.stops }}</td> -->
         <td>{{ item.conductor.name }}</td>
-        <td>{{ item.conductor.mobile }}</td>
+        <!-- <td>{{ item.conductor.mobile }}</td> -->
       </tr>
       {% endfor %}
     </tbody>
@@ -45,7 +50,11 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
 </div>
 
 <script src="socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
+  $(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
   var map;
   var loc = [];
   var directionsService;
@@ -95,7 +104,7 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
           for (arr in response.routes[0].overview_path) {
             let lat = response.routes[0].overview_path[arr].lat();
             let lng = response.routes[0].overview_path[arr].lng();
-            console.log(name, lat, lng);
+            // console.log(name, lat, lng);
             // await $.post(
             //   "/api/locations", // url
             //   { name: name, lat: lat, lon: lng }, // data to be submit
@@ -116,10 +125,15 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
   var marker = [];
   var pt = [];
   function pan(lat, lng, name) {
-    console.log("pt: ", pt);
+    // console.log("pt: ", pt);
     var panPoint = new google.maps.LatLng(lat, lng);
     if (pt[0]) {
-      map.panTo(new google.maps.LatLng(marker[pt[1]].position.lat(), marker[pt[1]].position.lng()));
+      map.panTo(
+        new google.maps.LatLng(
+          marker[pt[1]].position.lat(),
+          marker[pt[1]].position.lng()
+        )
+      );
       map.setZoom(15);
     }
     var flag = true;
@@ -136,15 +150,22 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
         label: name,
         map: map
       });
-      temp.addListener('click', function() {
-          gocent(temp.getLabel());
-        });
+      temp.addListener("click", function() {
+        gocent(temp.getLabel());
+      });
+      google.maps.event.addListener(map, "zoom_changed", function() {
+        let zoomlevel = map.getZoom();
+
+        if (zoomlevel === 15) return;
+        pt[0] = false;
+        pt[1] = -1;
+      });
       marker.push(temp);
     }
   }
 
   function gocent(name) {
-    for (let i=0;i<marker.length;i++) {
+    for (let i = 0; i < marker.length; i++) {
       if (name === marker[i].getLabel()) {
         if (i === pt[1]) {
           pt[0] = false;
