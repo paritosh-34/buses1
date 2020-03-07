@@ -14,7 +14,7 @@ const io = require("socket.io")(server);
 // const logger = require("./middleware/logger");
 
 mongoose
-  .connect("mongodb://localhost/buses1", {
+  .connect("mongodb+srv://paritosh:admin213@cluster0-gaca5.mongodb.net/buses1?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
