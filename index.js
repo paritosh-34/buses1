@@ -9,7 +9,7 @@ const { Location, validate } = require("./models/locations");
 const TestSocket = require("./models/test_sockets");
 const app = express();
 
-const server = require("https").Server(app);
+const server = require("http").Server(app);
 const io = require("socket.io")(server);
 // const logger = require("./middleware/logger");
 
