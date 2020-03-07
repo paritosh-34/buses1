@@ -9,6 +9,11 @@ router.get("/", async (req, res) => {
   res.send(result);
 });
 
+router.get("/:bus", async (req, res) => {
+  const result = await Location.find({name: req.params.bus})
+  return res.send(result);
+})
+
 router.delete("/:id", async (req, res) => {
   try {
     const result = await Location.findByIdAndRemove(req.params.id, {

@@ -29,6 +29,17 @@ router.get("/admin", async (req, res) => {
   return res.redirect("/");
 });
 
+router.get("/mappage", async (req, res) => {
+  if (req.session._id) {
+    if (req.session._id === "5e63adda4f8fb2266eb514eb") {
+      return res.redirect("/admin");
+    }
+    const buses = await Bus.find();
+    return res.render("mappage.html", {buses: buses});
+  }
+  return res.redirect("/");
+});
+
 router.post("/", async (req, res) => {
   console.log(req.body);
   const result = await User.find({
@@ -40,16 +51,6 @@ router.post("/", async (req, res) => {
     req.session._id = result[0]._id;
     return res.redirect("/mappage");
   } else return res.render("home.html", { i: "Invalid id/password" });
-});
-
-router.get("/mappage", async (req, res) => {
-  if (req.session._id) {
-    if (req.session._id === "5e63adda4f8fb2266eb514eb") {
-      return res.redirect("/admin");
-    }
-    return res.render("mappage.html");
-  }
-  return res.redirect("/");
 });
 
 router.post("/login", async (req, res) => {
@@ -97,8 +98,8 @@ router.get("/map", (req, res) => {
   res.render("maps.html");
 });
 
-router.get("/testL/Paritosh", async (req, res) => {
-  const result = await Location.find({ name: "Paritosh" }).sort("-time");
+router.get("/testL/MH%2014%20GU%207964", async (req, res) => {
+  const result = await Location.find({ name: "MH 14 GU 7964" }).sort("-time");
   res.send(result);
 });
 

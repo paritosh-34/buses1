@@ -11,6 +11,39 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
   <input id="submit" type="button" value="Search Buses" />
 </div>
 <div class="container mt-2" id="map"></div>
+
+<div class="container">
+  <table id="buses" class="table table-striped">
+    <thead>
+      <tr class="table-info">
+        <th colspan="6">
+          <center><h5>Buses</h5></center>
+        </th>
+      </tr>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Stops</th>
+        <th>BusNumber</th>
+        <th>Conductor name</th>
+        <th>Conductor mobile</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in buses %}
+      <tr>
+        <td>{{ item.from }}</td>
+        <td>{{ item.to }}</td>
+        <td>{{ item.stops }}</td>
+        <td>{{ item.busNumber }}</td>
+        <td>{{ item.conductor.name }}</td>
+        <td>{{ item.conductor.mobile }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 <script src="socket.io.js"></script>
 <script>
   var map;
@@ -23,8 +56,8 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
     map = new google.maps.Map(document.getElementById("map"), {
       zoom: 10,
       center: {
-        lat: -34.397,
-        lng: 150.644
+        lat: 30.5157861,
+        lng: 76.6606175
       }
     });
     directionsRenderer.setMap(map);
@@ -56,8 +89,22 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
         destination: { query: address2 },
         travelMode: "DRIVING"
       },
-      function(response, status) {
+      async function(response, status) {
         if (status === "OK") {
+          const name = "PB 14 AL 7964";
+          for (arr in response.routes[0].overview_path) {
+            let lat = response.routes[0].overview_path[arr].lat();
+            let lng = response.routes[0].overview_path[arr].lng();
+            console.log(name, lat, lng);
+            // await $.post(
+            //   "/api/locations", // url
+            //   { name: name, lat: lat, lon: lng }, // data to be submit
+            //   function(data, status, jqXHR) {
+            //     // success callback
+            //     console.log("status: " + status + ", data: " + data);
+            //   }
+            // );
+          }
           directionsRenderer.setDirections(response);
         } else {
           window.alert("Directions request failed due to " + status);
@@ -66,7 +113,7 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
     );
   }
 
-  var marker = []
+  var marker = [];
   function pan(lat, lng, name) {
     var panPoint = new google.maps.LatLng(lat, lng);
     // map.panTo(panPoint);

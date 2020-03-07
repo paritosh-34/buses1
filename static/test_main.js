@@ -5,7 +5,7 @@ $(document).ready(function() {
   $("#butt").click(async function() {
     const name = $("#slct option:selected").text();
     console.log(name);
-    await $.get("/testL/"+name, function(data, textStatus, jqXHR) {
+    await $.get("/api/locations/"+name, function(data, textStatus, jqXHR) {
       console.log("status: " + textStatus + ", data: " + data[0]);
       locs = data;
     });
@@ -38,6 +38,6 @@ async function start() {
       index = index + 1;
 
       socket.emit("test_socket", locs[index]);
-    }, i * 2000);
+    }, i * 1000);
   }
 }
