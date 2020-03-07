@@ -57,15 +57,12 @@ function validateUser(user) {
       .min(3)
       .required(),
     mobile: Joi.number().required(),
-    DOB: {
-      year: Joi.number().required(),
-      month: Joi.number().required(),
-      day: Joi.number().required()
-    },
+    DOB: Joi.string().required(),
     gender: Joi.string()
       .valid("male", "female", "others")
       .required(),
-    city: Joi.string().required()
+    city: Joi.string().required(),
+    password: Joi.string().required()
   };
   return Joi.validate(user, schema);
 }

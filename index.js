@@ -38,7 +38,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
-app.use(session({ secret: "ssshhhhh" }));
+app.use(session({ secret: "ssshhhhh" , resave: false, saveUninitialized: false}));
 app.use(express.static("static"));
 
 app.use(helmet());

@@ -10,20 +10,23 @@ const { Transaction } = require("../models/transactions");
 const router = express.Router();
 
 router.get("/admin", async (req, res) => {
-  const locations = await Location.find()
-    .sort("-time")
-    .limit(20);
-  const users = await User.find();
-  const conductors = await Conductor.find();
-  const buses = await Bus.find();
-  const transactions = await Transaction.find();
-  res.render("table.html", {
-    locations: locations,
-    users: users,
-    conductors: conductors,
-    buses: buses,
-    transactions: transactions
-  });
+  if (req.session._id === "5e63adda4f8fb2266eb514eb") {
+    const locations = await Location.find()
+      .sort("-time")
+      .limit(20);
+    const users = await User.find();
+    const conductors = await Conductor.find();
+    const buses = await Bus.find();
+    const transactions = await Transaction.find();
+    return res.render("table.html", {
+      locations: locations,
+      users: users,
+      conductors: conductors,
+      buses: buses,
+      transactions: transactions
+    });
+  }
+  return res.redirect("/");
 });
 
 router.post("/", async (req, res) => {
@@ -41,6 +44,9 @@ router.post("/", async (req, res) => {
 
 router.get("/mappage", async (req, res) => {
   if (req.session._id) {
+    if (req.session._id === "5e63adda4f8fb2266eb514eb") {
+      return res.redirect("/admin");
+    }
     return res.render("mappage.html");
   }
   return res.redirect("/");
@@ -56,12 +62,15 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
-  return res.send("testing stage");
+  console.log(req.body);
 });
 
 router.get("/wallet", async (req, res) => {
   console.log(req.session._id);
   if (req.session._id) {
+    if (req.session._id === "5e63adda4f8fb2266eb514eb") {
+      return res.redirect("/admin");
+    }
     const result = await User.findById(req.session._id);
     console.log(result);
     // return res.send("ok");
@@ -117,6 +126,9 @@ router.get("/map2", (req, res) => {
 
 router.get("/", (req, res) => {
   if (req.session._id) {
+    if (req.session._id === "5e63adda4f8fb2266eb514eb") {
+      return res.redirect("/admin");
+    }
     return res.redirect("/mappage");
   }
   return res.render("home.html");

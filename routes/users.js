@@ -15,13 +15,14 @@ router.post("/", async (req, res) => {
   let user = new User({
     name: req.body.name,
     mobile: req.body.mobile,
-    DOB: new Date(req.body.DOB.year, req.body.DOB.month, req.body.DOB.day),
+    DOB: new Date(req.body.DOB),
     gender: req.body.gender,
-    city: req.body.city
+    city: req.body.city,
+    password: req.body.password
   });
 
   const result = await user.save();
-  res.send(result);
+  return res.redirect("/");
 });
 
 router.put("/:id", async (req, res) => {
