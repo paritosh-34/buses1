@@ -63,7 +63,7 @@ logger.stream = {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
-app.use(session({secret: "secret key dudes !!"}));
+app.use(session({ secret: "ssshhhhh" }));
 app.use(express.static("static"));
 app.use(express.static("logs"));
 
@@ -72,7 +72,9 @@ app.use(require("morgan")("tiny", { stream: logger.stream }));
 
 io.on("connection", function(socket) {
   console.log("a user connected");
-
+  socket.on("send_message", data => {
+    socket.broadcast.emit("receive_message", data);
+  });
   socket.on("post request", function(msg) {
     console.log("chat message", msg);
   });
@@ -104,7 +106,7 @@ app.post("/api/locations", async (req, res) => {
       let location = new Location({
         name: req.body.name,
         lat: req.body.lat,
-        lon: req.body.lon,
+        lon: req.body.lon
       });
       const result = await location.save();
       res.send(result);

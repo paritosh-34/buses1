@@ -1,4 +1,6 @@
 const express = require("express");
+const session = require("express-session");
+
 const { Location } = require("../models/locations");
 const { User } = require("../models/users");
 const { Conductor } = require("../models/conductors");
@@ -24,23 +26,24 @@ router.get("/admin", async (req, res) => {
   });
 });
 
-router.post("/check", (req, res) => {
-  console.log(req.body);
-  return res.status(200).send("ok");
-});
-
 router.post("/", async (req, res) => {
   console.log(req.body);
   const result = await User.find({
     name: req.body.username,
     password: req.body.password
   });
-  if (result[0]) return res.redirect("/mappage");
-  else return res.render("home.html", { i: "Invalid id/password" });
+  if (result[0]) {
+    console.log(result[0]);
+    req.session._id = result[0]._id;
+    return res.redirect("/mappage");
+  } else return res.render("home.html", { i: "Invalid id/password" });
 });
 
 router.get("/mappage", async (req, res) => {
-  res.render("mappage.html");
+  if (req.session._id) {
+    return res.render("mappage.html");
+  }
+  return res.redirect("/");
 });
 
 router.post("/login", async (req, res) => {
@@ -53,15 +56,31 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
-  res.send("testing stage");
+  return res.send("testing stage");
 });
 
-router.get("/wallet", (req, res) => {
-  res.render("wallet.html");
+router.get("/wallet", async (req, res) => {
+  console.log(req.session._id);
+  if (req.session._id) {
+    const result = await User.findById(req.session._id);
+    console.log(result);
+    // return res.send("ok");
+    return res.render("wallet.html", {
+      username: result.name,
+      balance: result.balance
+    });
+  }
+  return res.redirect("/");
+});
+
+router.post("/wallet", (req, res) => {
+  // const result = await U
+  console.log("ok");
 });
 
 router.get("/locations", async (req, res) => {
   const result = await Location.find().sort("-time");
+  console.log(result);
   res.render("locations.html", { locations: result });
 });
 
@@ -97,7 +116,19 @@ router.get("/map2", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  res.render("home.html");
+  if (req.session._id) {
+    return res.redirect("/mappage");
+  }
+  return res.render("home.html");
+});
+
+router.get("/logout", (req, res) => {
+  req.session.destroy(function(err) {
+    if (err) {
+      return res.negotiate(err);
+    }
+    return res.redirect("/");
+  });
 });
 
 module.exports = router;

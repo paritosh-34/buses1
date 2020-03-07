@@ -1,5 +1,5 @@
 {% extends 'format.html' %} {% block title %} Choose Bus {% endblock %} {% block
-button %}<a href="home"><button class="btn btn-success">Logout</button></a>{%
+button %}<a href="/logout"><button class="btn btn-success">Logout</button></a>{%
 endblock %} {% block style %} /* Always set the map height explicitly to define
 the size of the div * element that contains the map. */ #map { height: 60%; } /*
 Optional: Makes the sample page fill the window. */ html, body { height: 100%;
@@ -11,9 +11,15 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
   <input id="submit" type="button" value="Search Buses" />
 </div>
 <div class="container mt-2" id="map"></div>
+<script src="socket.io.js"></script>
 <script>
   var map;
+  var loc = [];
+  var directionsService;
+  var directionsRenderer;
   function initMap() {
+    directionsService = new google.maps.DirectionsService();
+    directionsRenderer = new google.maps.DirectionsRenderer();
     map = new google.maps.Map(document.getElementById("map"), {
       zoom: 10,
       center: {
@@ -21,80 +27,72 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
         lng: 150.644
       }
     });
-    var geocoder = new google.maps.Geocoder();
+    directionsRenderer.setMap(map);
 
     document.getElementById("submit").addEventListener("click", function() {
-      geocodeAddress(geocoder, map);
+      geocodeAddress();
     });
   }
 
-  function geocodeAddress(geocoder, resultsMap) {
+  function geocodeAddress() {
     var address1 = document.getElementById("from").value;
     var address2 = document.getElementById("to").value;
-    var from;
-    var to;
-    geocoder.geocode(
+    calculateAndDisplayRoute(
+      directionsService,
+      directionsRenderer,
+      address1,
+      address2
+    );
+  }
+  function calculateAndDisplayRoute(
+    directionsService,
+    directionsRenderer,
+    address1,
+    address2
+  ) {
+    directionsService.route(
       {
-        address: address1
+        origin: { query: address1 },
+        destination: { query: address2 },
+        travelMode: "DRIVING"
       },
-      function(results, status) {
+      function(response, status) {
         if (status === "OK") {
-          from = results[0].geometry.location;
-          console.log(results[0].geometry.location);
-          resultsMap.setCenter(results[0].geometry.location);
-          var marker1 = new google.maps.Marker({
-            map: resultsMap,
-            position: results[0].geometry.location
-          });
+          directionsRenderer.setDirections(response);
         } else {
-          alert(
-            "Geocode was not successful for the following reason: " + status
-          );
+          window.alert("Directions request failed due to " + status);
         }
       }
     );
-    geocoder.geocode(
-      {
-        address: address2
-      },
-      function(results, status) {
-        if (status === "OK") {
-          to = results[0].geometry.location;
-          resultsMap.setCenter(results[0].geometry.location);
-          console.log(results);
-          var marker1 = new google.maps.Marker({
-            map: resultsMap,
-            position: results[0].geometry.location
-          });
-          setPolyline();
-        } else {
-          alert(
-            "Geocode was not successful for the following reason: " + status
-          );
-        }
+  }
+
+  var marker = []
+  function pan(lat, lng, name) {
+    var panPoint = new google.maps.LatLng(lat, lng);
+    // map.panTo(panPoint);
+    var flag = true;
+    console.log(marker.length);
+    for (let i = 0; i < marker.length; i++) {
+      if (name === marker[i].getLabel()) {
+        flag = false;
+        marker[i].setPosition(panPoint);
       }
-    );
-    function setPolyline() {
-      $.post(
-        "localhost:3000/check", // url
-        { myData: {from: from, to: to} }, // data to be submit
-        function(data, status, jqXHR) {
-          // success callback
-          console.log("status: " + status + ", data: " + data);
-        }
-      );
-      console.log("from: ", from);
-      console.log("to: ", to);
-      // var flightPath = new google.maps.Polyline({
-      //   path: [from, to],
-      //   geodesic: true,
-      //   strokeColor: "#FF0000",
-      //   strokeOpacity: 1.0,
-      //   strokeWeight: 2
-      // });
-      // flightPath.setMap(map);
+    }
+    if (flag) {
+      const temp = new google.maps.Marker({
+        position: { lat: lat, lng: lng },
+        label: name,
+        map: map
+      });
+      marker.push(temp);
     }
   }
+
+  var socket = io();
+  socket.on("test_socket", function(msg) {
+    console.log(msg);
+    pan(msg.lat, msg.lng, msg.name);
+  });
 </script>
 <script
   async
