@@ -114,7 +114,7 @@ router.post("/wallet", async (req, res) => {
 router.post("/m/wallet", async (req, res) => {
   console.log(req.body);
   const result = await User.findByIdAndUpdate(
-    req.body._id,
+    req.body.id,
     { balance: req.body.balance },
     { new: true, useFindAndModify: false }
   );
