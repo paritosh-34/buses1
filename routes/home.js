@@ -6,6 +6,7 @@ const { User } = require("../models/users");
 const { Conductor } = require("../models/conductors");
 const { Bus } = require("../models/buses");
 const { Transaction } = require("../models/transactions");
+const { Seats } = require("../models/seats");
 
 const router = express.Router();
 
@@ -146,5 +147,14 @@ router.get("/realtime", (req, res) => {
 router.get("/map2", (req, res) => {
   res.render("maps2.html");
 });
+
+router.get("/seats/c", (req, res) => {
+  res.render("busC.html");
+});
+
+router.get("/seats", async (req, res) => {
+  const result = await Seats.find();
+  return res.send(result);
+})
 
 module.exports = router;

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Buses Information</title>
+    <style type="text/css">
+      .divs {
+        height: 80px;
+        width: 50px;
+        background-color: #99ff99;
+      }
+      table {
+        border: 1px solid black;
+      }
+      /*#d00
+		{
+			background-color: #e2a4a4;
+		}*/
+    </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var myArr = [];
+
+        $("div").click(function() {
+          var attID = $(this).attr("id");
+          console.log(attID);
+
+          var bgc = document.getElementById(attID).style.backgroundColor;
+          console.log("->" + bgc + "<-");
+
+          var no = attID;
+          var info;
+
+          if (bgc == "") {
+            info = 1;
+            document.getElementById(attID).style.backgroundColor = "#e2a4a4";
+            myArr.push({ nn: no, ii: info });
+          }
+          // else
+          // 	info = 0;
+
+          // myArr.push({nn:no, ii:info});
+        });
+        const Url = "http://127.0.0.1:5000/cbuses";
+        $("#subbutton").click(function() {
+          // $.post(Url, JSON.stringify(myJSON+']}'), function(data, status){
+          // 	console.log('${data} and status is ${status}')
+
+          var result = {};
+
+          for (var i = 0; i < myArr.length; i++) {
+            console.log(myArr[i]["nn"]);
+            result[myArr[i]["nn"]] = myArr[i]["ii"];
+          }
+
+          console.log(result);
+
+          // --------------------------------------
+
+          // var request = {Company: "sapws.dbName", UserName: {Company: "sapws.dbName", UserName: "username", Password: "userpass"}, Password: "userpass"};
+          // console.log(request);
+
+          // --------------------------------------
+
+          $.ajax({
+            type: "POST",
+            url: Url,
+            data: JSON.stringify(result),
+            success: function() {
+              console.log("success");
+            },
+            crossDomain: true,
+            contentType: "application/json"
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1 align="center">Bus Seats</h1>
+    <table align="center">
+      <tr>
+        <td><div id="d00" class="divs"></div></td>
+        <td><div id="d01" class="divs"></div></td>
+        <td><div id="d02" style="height: 80px; width: 50px"></div></td>
+        <td><div id="d03" class="divs"></div></td>
+        <td><div id="d04" class="divs"></div></td>
+        <td><div id="d05" class="divs"></div></td>
+      </tr>
+      <tr>
+        <td><div id="d10" class="divs"></div></td>
+        <td><div id="d11" class="divs"></div></td>
+        <td><div id="d12" style="height: 80px; width: 50px"></div></td>
+        <td><div id="d13" class="divs"></div></td>
+        <td><div id="d14" class="divs"></div></td>
+        <td><div id="d15" class="divs"></div></td>
+      </tr>
+      <tr>
+        <td><div id="d20" class="divs"></div></td>
+        <td><div id="d21" class="divs"></div></td>
+        <td><div id="d22" style="height: 80px; width: 50px"></div></td>
+        <td><div id="d23" class="divs"></div></td>
+        <td><div id="d24" class="divs"></div></td>
+        <td><div id="d25" class="divs"></div></td>
+      </tr>
+      <tr>
+        <td><div id="d30" class="divs"></div></td>
+        <td><div id="d31" class="divs"></div></td>
+        <td><div id="d32" style="height: 80px; width: 50px"></div></td>
+        <td><div id="d33" class="divs"></div></td>
+        <td><div id="d34" class="divs"></div></td>
+        <td><div id="d35" class="divs"></div></td>
+      </tr>
+      <tr>
+        <td><div id="d40" class="divs"></div></td>
+        <td><div id="d41" class="divs"></div></td>
+        <td><div id="d42" style="height: 80px; width: 50px"></div></td>
+        <td><div id="d43" class="divs"></div></td>
+        <td><div id="d44" class="divs"></div></td>
+        <td><div id="d45" class="divs"></div></td>
+      </tr>
+      <tr>
+        <td><div id="d50" class="divs"></div></td>
+        <td><div id="d51" class="divs"></div></td>
+        <td><div id="d52" class="divs"></div></td>
+        <td><div id="d53" class="divs"></div></td>
+        <td><div id="d54" class="divs"></div></td>
+        <td><div id="d55" class="divs"></div></td>
+      </tr>
+    </table>
+
+    <button id="subbutton">Submit</button>
+
+    <!--==================================================================-->
+
+    <!-- <script>
+      // {% for post in posts %}
+      // 	if({{post['info']}})
+      // 		document.getElementById("{{post['no']}}").style.backgroundColor = "#e2a4a4";
+      // {% endfor %}
+    </script> -->
+    <script>
+      async function getData() {
+        var sts;
+        await $.get("/seats", function(data, status) {
+          console.log("Data: " + data[0].no + "\nStatus: " + status);
+          sts = data;
+        });
+        for (x in sts) {
+          console.log(sts[x]);
+          if (sts[x].info)
+            document.getElementById(sts[x].no).style.backgroundColor = "#e2a4a4";
+        }
+      }
+      getData();
+    </script>
+  </body>
+</html>
