@@ -112,10 +112,15 @@ router.post("/wallet", async (req, res) => {
 });
 
 router.post("/m/wallet/subtract", async (req, res) => {
-  console.log(req.body);
   const result = await User.findById(req.body.id);
-  console.log(result);
   result.balance = result.balance - req.body.balance;
+  const re = await result.save();
+  return res.send(re);
+});
+
+router.post("/m/wallet/add", async (req, res) => {
+  const result = await User.findById(req.body.id);
+  result.balance = result.balance + req.body.balance;
   const re = await result.save();
   return res.send(re);
 });
