@@ -111,15 +111,13 @@ router.post("/wallet", async (req, res) => {
   }
 });
 
-router.post("/m/wallet", async (req, res) => {
+router.post("/m/wallet/subtract", async (req, res) => {
   console.log(req.body);
-  const result = await User.findByIdAndUpdate(
-    req.body.id,
-    { balance: req.body.balance },
-    { new: true, useFindAndModify: false }
-  );
+  const result = await User.findById(req.body.id);
   console.log(result);
-  return res.send(result);
+  result.balance = result.balance - req.body.balance;
+  const re = await result.save();
+  return res.send(re);
 });
 
 router.get("/locations", async (req, res) => {
