@@ -19,7 +19,6 @@ router.get("/", (req, res) => {
   return res.render("home.html");
 });
 
-
 router.post("/", async (req, res) => {
   console.log(req.body);
   const result = await User.find({
@@ -68,11 +67,10 @@ router.get("/mappage", async (req, res) => {
       return res.redirect("/admin");
     }
     const buses = await Bus.find();
-    return res.render("mappage.html", {buses: buses});
+    return res.render("mappage.html", { buses: buses });
   }
   return res.redirect("/");
 });
-
 
 router.post("/login", async (req, res) => {
   console.log(req.body);
@@ -113,6 +111,16 @@ router.post("/wallet", async (req, res) => {
   }
 });
 
+router.post("/m/wallet", async (req, res) => {
+  const result = await User.findByIdAndUpdate(
+    req.body._id,
+    { balance: req.body.balance },
+    { new: true, useFindAndModify: false }
+  );
+  console.log(result);
+  return res.send(result);
+});
+
 router.get("/locations", async (req, res) => {
   const result = await Location.find().sort("-time");
   console.log(result);
@@ -134,6 +142,5 @@ router.get("/realtime", (req, res) => {
 router.get("/map2", (req, res) => {
   res.render("maps2.html");
 });
-
 
 module.exports = router;
