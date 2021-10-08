@@ -52,7 +52,7 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
 <script src="socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
   var map;
@@ -66,33 +66,36 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
       zoom: 12,
       center: {
         lat: 30.5157861,
-        lng: 76.6606175
-      }
+        lng: 76.6606175,
+      },
     });
     directionsRenderer.setMap(map);
 
-    infoWindow = new google.maps.InfoWindow;
+    infoWindow = new google.maps.InfoWindow();
 
     if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Your Location');
-            infoWindow.open(map);
-            map.setCenter(pos);
-          }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-          });
-        } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
+          infoWindow.setPosition(pos);
+          infoWindow.setContent("Your Location");
+          infoWindow.open(map);
+          map.setCenter(pos);
+        },
+        function () {
+          handleLocationError(true, infoWindow, map.getCenter());
         }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
+    }
 
-    document.getElementById("submit").addEventListener("click", function() {
+    document.getElementById("submit").addEventListener("click", function () {
       geocodeAddress();
     });
   }
@@ -117,9 +120,9 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
       {
         origin: { query: address1 },
         destination: { query: address2 },
-        travelMode: "DRIVING"
+        travelMode: "DRIVING",
       },
-      async function(response, status) {
+      async function (response, status) {
         if (status === "OK") {
           const name = "CH 04 AK 6495";
           for (arr in response.routes[0].overview_path) {
@@ -170,12 +173,12 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
         position: { lat: lat, lng: lng },
         label: name,
         icon: "image (4).png",
-        map: map
+        map: map,
       });
-      temp.addListener("click", function() {
+      temp.addListener("click", function () {
         gocent(temp.getLabel());
       });
-      google.maps.event.addListener(map, "zoom_changed", function() {
+      google.maps.event.addListener(map, "zoom_changed", function () {
         let zoomlevel = map.getZoom();
 
         if (zoomlevel === 15) return;
@@ -201,7 +204,7 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
   }
 
   var socket = io();
-  socket.on("locs", function(msg) {
+  socket.on("locs", function (msg) {
     // console.log(msg);
     pan(msg.lat, msg.lng, msg.name);
   });
@@ -209,6 +212,6 @@ margin: 0; padding: 0; {% endblock %} {% block body %}
 <script
   async
   defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqqW5pq28Qera8ScOykfyKpiIP5Cc0XAM&callback=initMap"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAssnV28LjYXxJBYiGEU44gANd64FJ4GeY&callback=initMap"
 ></script>
 {% endblock %}

@@ -1,12 +1,13 @@
 let map;
 let locs;
-$(document).ready(function() {
+$(document).ready(function () {
   $("#myModal").modal("show");
-  $("#butt").click(async function() {
+  $("#butt").click(async function () {
     const name = $("#slct option:selected").text();
     console.log(name);
-    await $.get("/api/locations/"+name, function(data, textStatus, jqXHR) {
+    await $.get("/api/locations/" + name, function (data, textStatus, jqXHR) {
       console.log("status: " + textStatus + ", data: " + data[0]);
+      console.log("lenght: ", data.length);
       locs = data;
     });
     start();
@@ -22,7 +23,7 @@ async function start() {
 
   let index = 0;
   for (let i = 0; i < locs.length; i++) {
-    setTimeout(function() {
+    setTimeout(function () {
       console.log(locs[index]);
 
       const text =

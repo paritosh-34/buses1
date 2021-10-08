@@ -15,12 +15,15 @@ const io = require("socket.io")(server);
 // const logger = require("./middleware/logger");
 
 mongoose
-  .connect("mongodb+srv://paritosh:admin213@cluster0-gaca5.mongodb.net/buses1?retryWrites=true&w=majority", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+  .connect(
+    "mongodb+srv://paritosh:admin213@cluster0.gaca5.mongodb.net/buses1?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
   .then(() => console.log("Connected to MongoDB..."))
-  .catch(err => console.log("Error:", err));
+  .catch((err) => console.log("Error:", err));
 
 const users = require("./routes/users");
 const conductors = require("./routes/conductors");
@@ -31,33 +34,35 @@ const home = require("./routes/home");
 
 nunjucks.configure("views", {
   autoescape: true,
-  express: app
+  express: app,
 });
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
-app.use(session({ secret: "ssshhhhh" , resave: false, saveUninitialized: false}));
+app.use(
+  session({ secret: "ssshhhhh", resave: false, saveUninitialized: false })
+);
 app.use(express.static("static"));
 
 app.use(helmet());
 app.use(morgan("dev"));
 
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   console.log("a user connected");
-  socket.on("send_message", data => {
+  socket.on("send_message", (data) => {
     socket.broadcast.emit("receive_message", data);
   });
-  socket.on("post request", function(msg) {
+  socket.on("post request", function (msg) {
     console.log("chat message", msg);
   });
 
-  socket.on("test_socket", function(msg) {
+  socket.on("test_socket", function (msg) {
     io.emit("locs", msg);
   });
 
-  socket.on("disconnect", function() {
+  socket.on("disconnect", function () {
     console.log("user disconnected");
   });
 });
@@ -80,14 +85,14 @@ app.post("/api/locations", async (req, res) => {
       let location = new Location({
         name: req.body.name,
         lat: req.body.lat,
-        lon: req.body.lon
+        lon: req.body.lon,
       });
       const result = await location.save();
       res.send(result);
     } else {
       let location = new Location({
         lat: req.body.lat,
-        lon: req.body.lon
+        lon: req.body.lon,
       });
       const result = await location.save();
       res.send(result);

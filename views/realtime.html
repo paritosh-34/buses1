@@ -14,7 +14,7 @@
       }
     </style>
     <script src="socket.io.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyBqqW5pq28Qera8ScOykfyKpiIP5Cc0XAM"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyAssnV28LjYXxJBYiGEU44gANd64FJ4GeY"></script>
     <script>
       var map;
       var marker = [];
@@ -22,7 +22,7 @@
         var mapOptions = {
           zoom: 11,
           center: new google.maps.LatLng(30.5157861, 76.6606175),
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
         };
         map = new google.maps.Map(
           document.getElementById("map-canvas"),
@@ -53,15 +53,14 @@
           const temp = new google.maps.Marker({
             position: { lat: lat, lng: lng },
             label: name,
-            map: map
+            map: map,
           });
           marker.push(temp);
-
         }
       }
 
       var socket = io();
-      socket.on("locs", function(msg) {
+      socket.on("locs", function (msg) {
         console.log(msg);
         pan(msg.lat, msg.lng, msg.name);
       });
@@ -70,8 +69,8 @@
   <body>
     <a href="/test" target="_blank">Start Lat Lon Simulation</a>
     Or send lat long via this form<br />
-    <label>lat</label><input type="text" id="lat" />
-    <label>lng</label><input type="text" id="lng" />
+    <label>lat</label><input type="text" id="lat" /> <label>lng</label
+    ><input type="text" id="lng" />
     <input type="button" value="updateCenter" onclick="pan()" />
 
     <div id="map-canvas"></div>
